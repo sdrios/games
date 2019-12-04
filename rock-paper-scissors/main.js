@@ -1,28 +1,38 @@
-var content = document.getElementById('content');
-
-var rockPaperScissors = "Replace this with your own abstraction of Rock Paper Scissors"
-
-content.innerHTML = renderGame(rockPaperScissors);
 
 
+$('.btn').click(function(e){
+    let inputArray = ["Rock", "Paper", "Scissors"];
 
+    let userInput = e.target.innerHTML;
+    let compInput = inputArray[Math.floor(Math.random()*inputArray.length)];
+    let playerInputs = [];
+    playerInputs.push(userInput, compInput);
+    console.log(playerInputs);
+    let winningPlayer = decideWinner(playerInputs);
+    renderGame(playerInputs, winningPlayer);
+});
 
-function renderGame(game) {
-    // Change this render function to use the "game" parameter
+function decideWinner(moves){
+    let winner = "";
+    if ((moves[0] == "Rock" && moves[1] == "Scissors") || (moves[0] == "Scissors" && moves[1] == "Paper") || (moves[0] == "Paper" && moves[1] == "Rock")){
+        console.log("Player 1 wins");
+        winner = "Player 1";
+        return winner;
+    } else if ((moves[1] == "Rock" && moves[0] == "Scissors") || (moves[1] == "Scissors" && moves[0] == "Paper") || (moves[1] == "Paper" && moves[0] == "Rock")){
+        console.log("Computer Wins!");
+        winner = "Computer";
+        return winner;
+    } else if (moves[0] == moves[1]){
+        console.log("It's a tie!");
+        winner = "No One";
+        return winner;
+    }
+}
 
-    return `
-        <div class="container d-flex flex-column justify-content-start align-items-center">
-            <h4>Choose your weapon:</h4>
-            <div class="w-50 text-center">
-                <button class="btn btn-primary">Rock</button>
-                <button class="btn btn-primary">Paper</button>
-                <button class="btn btn-primary">Scissors</button>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="m-5">You played: <b>ROCK</b></div>
-                <div class="m-5">The computer played: <b>SCISSORS</b></div>
-            </div>
-            <h1 class="text-center">You win!</h1>
-        </div>
-    `
+function renderGame(moves, winner){
+  $('#results').html(` <div class="d-flex justify-content-center">
+    <div class="m-5">You played: <b>${moves[0]}</b></div>
+    <div class="m-5">The computer played: <b>${moves[1]}</b></div>
+    </div>
+    <h1 class="text-center">${winner} wins!</h1>`);
 }
